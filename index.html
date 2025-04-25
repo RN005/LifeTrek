@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeTrek - Daily Progress Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body class="transition-all duration-300">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 flex-shrink-0 py-4 px-2 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-300">
+            <div class="flex justify-center mb-8">
+                <div class="text-center">
+                    <svg width="80" height="80" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="95" fill="none" stroke="#f97316" stroke-width="2"/>
+                        <path d="M70,140 L70,80 L110,80 Q130,80 140,110 T180,110" fill="none" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke="url(#gradient)" />
+                        <polygon points="170,90 190,110 170,130" fill="#f97316" />
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f97316" />
+                                <stop offset="100%" stop-color="#e11d48" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="text-xl font-bold text-orange-500">LIFETREK</div>
+                </div>
+            </div>
+            <nav>
+                <div class="sidebar-item active flex items-center p-3 rounded mb-2 cursor-pointer" data-section="dashboard">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Dashboard
+                </div>
+                <div class="sidebar-item flex items-center p-3 rounded mb-2 cursor-pointer" data-section="skills">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                    </svg>
+                    Skills
+                </div>
+                <div class="sidebar-item flex items-center p-3 rounded mb-2 cursor-pointer" data-section="tasks">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Tasks
+                </div>
+                <div class="sidebar-item flex items-center p-3 rounded mb-2 cursor-pointer" data-section="resources">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+                    </svg>
+                    Resources
+                </div>
+                <div class="sidebar-item flex items-center p-3 rounded mb-2 cursor-pointer" data-section="calendar">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                    </svg>
+                    Calendar
+                </div>
+                <div class="sidebar-item flex items-center p-3 rounded mb-2 cursor-pointer" data-section="social">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+                    </svg>
+                    Social
+                </div>
+                <div class="sidebar-item flex items-center p-3 rounded mb-2 cursor-pointer" data-section="analytics">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                    </svg>
+                    Analytics
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex-1 p-6">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-2xl font-bold" id="sectionTitle">Dashboard</h1>
+                <div class="flex items-center">
+                    <span class="mr-2 text-sm">Light</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="ml-2 text-sm">Dark</span>
+                    <div class="ml-6 flex items-center">
+                        <div id="welcomeToast" class="bg-green-500 text-white py-2 px-4 rounded-md hidden">Welcome back, John Doe!</div>
+                        <div class="ml-4 flex items-center">
+                            <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                                <span class="text-gray-600">JD</span>
+                            </div>
+                            <div class="ml-2">John Doe</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sections -->
+            <div id="dashboard" class="section">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Skill Progress -->
+                    <div class="card p-4">
+                        <h2 class="text-lg font-semibold mb-4">Skill Progress</h2>
+                        <div id="skillProgress">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                    <!-- Learning Streak -->
+                    <div class="card p-4 flex flex-col items-center justify-center">
+                        <h2 class="text-lg font-semibold mb-4">Learning Streak</h2>
+                        <div class="text-5xl font-bold mb-2 text-orange-500" id="streakCount">5 days</div>
+                        <p class="text-gray-500 dark:text-gray-400">Keep up the good work!</p>
+                    </div>
+                    <!-- Next Task -->
+                    <div class="card p-4">
+                        <h2 class="text-lg font-semibold mb-4">Next Task</h2>
+                        <div class="mb-4" id="nextTask">Complete JavaScript Basics course</div>
+                        <button id="startTaskButton" class="btn-primary">Start Now</button>
+                    </div>
+                    <!-- Quick Add -->
+                    <div class="card p-4">
+                        <h2 class="text-lg font-semibold mb-4">Quick Add</h2>
+                        <div class="flex">
+                            <input type="text" id="quickAddInput" placeholder="Add new task or skill" class="flex-1 p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
+                            <button id="quickAddButton" class="bg-orange-500 text-white p-2 rounded-r-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="taskList" class="mt-4"></div>
+                    </div>
+                    <!-- Learning Timer -->
+                    <div class="card p-4">
+                        <h2 class="text-lg font-semibold mb-4">Learning Timer</h2>
+                        <div class="text-3xl font-mono text-center mb-4" id="timer">00:00:00</div>
+                        <div class="flex justify-between">
+                            <button id="startButton" class="btn-primary">Start</button>
+                            <button id="pauseButton" class="btn-secondary">Pause</button>
+                            <button id="resetButton" class="btn-secondary">Reset</button>
+                        </div>
+                    </div>
+                    <!-- Quick Tip -->
+                    <div class="card p-4">
+                        <h2 class="text-lg font-semibold mb-4">Quick Tip</h2>
+                        <p id="quickTip">Teach what you've learned to someone else to solidify your understanding.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="skills" class="section hidden">
+                <div class="card p-4">
+                    <h2 class="text-lg font-semibold mb-4">Manage Skills</h2>
+                    <div class="flex mb-4">
+                        <input type="text" id="newSkillInput" placeholder="New skill name" class="flex-1 p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
+                        <input type="number" id="skillLevelInput" placeholder="Level (0-5)" min="0" max="5" step="0.1" class="w-24 p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
+                        <button id="addSkillButton" class="bg-orange-500 text-white p-2 rounded-r-md hover:bg-orange-600">Add</button>
+                    </div>
+                    <div id="skillsList"></div>
+                </div>
+            </div>
+            <div id="tasks" class="section hidden">
+                <div class="card p-4">
+                    <h2 class="text-lg font-semibold mb-4">To-Do List</h2>
+                    <div class="flex mb-4">
+                        <input type="text" id="newTaskInput" placeholder="New task" class="flex-1 p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
+                        <button id="addTaskButton" class="bg-orange-500 text-white p-2 rounded-r-md hover:bg-orange-600">Add</button>
+                    </div>
+                    <div id="tasksList"></div>
+                </div>
+            </div>
+            <div id="resources" class="section hidden">
+                <div class="card p-4">
+                    <h2 class="text-lg font-semibold mb-4">Resources</h2>
+                    <input type="file" id="resourceUpload" class="mb-4 p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-white" multiple />
+                    <div id="resourcesList"></div>
+                </div>
+            </div>
+            <div id="calendar" class="section hidden">
+                <div class="card p-4">
+                    <h2 class="text-lg font-semibold mb-4">Calendar</h2>
+                    <div class="flex justify-between mb-4">
+                        <button id="prevMonth" class="btn-secondary">Previous</button>
+                        <h3 id="calendarMonth" class="text-lg font-semibold"></h3>
+                        <button id="nextMonth" class="btn-secondary">Next</button>
+                    </div>
+                    <div id="calendarGrid" class="grid grid-cols-7 gap-2 text-center"></div>
+                    <div class="mt-4">
+                        <input type="text" id="deadlineInput" placeholder="Add deadline" class="p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
+                        <input type="date" id="deadlineDate" class="p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
+                        <button id="addDeadlineButton" class="bg-orange-500 text-white p-2 rounded-r-md hover:bg-orange-600">Add</button>
+                    </div>
+                    <div id="deadlinesList" class="mt-4"></div>
+                </div>
+            </div>
+            <div id="social" class="section hidden">
+                <div class="card p-4">
+                    <h2 class="text-lg font-semibold mb-4">Community</h2>
+                    <div id="socialProfiles"></div>
+                </div>
+            </div>
+            <div id="analytics" class="section hidden">
+                <div class="card p-4">
+                    <h2 class="text-lg font-semibold mb-4">Analytics</h2>
+                    <div class="flex mb-4">
+                        <select id="timePeriod" class="p-2 border border-gray-300 rounded-md mr-2 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                        <select id="chartType" class="p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+                            <option value="line">Line</option>
+                            <option value="bar">Bar</option>
+                            <option value="pie">Pie</option>
+                            <option value="radar">Radar</option>
+                        </select>
+                    </div>
+                    <h3 class="text-md font-semibold mb-2">Tasks</h3>
+                    <canvas id="tasksChart" class="mb-4"></canvas>
+                    <h3 class="text-md font-semibold mb-2">Skills</h3>
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
